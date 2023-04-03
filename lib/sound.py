@@ -7,7 +7,7 @@ __email__ = '564298339@qq.com'
 __time__ = '2023/4/3 14:16'
 """
 
-import json,os,pyttsx3
+import json, os, pyttsx3
 
 import azure.cognitiveservices.speech as azure_speechsdk
 
@@ -15,30 +15,32 @@ import azure.cognitiveservices.speech as azure_speechsdk
 azure_endpoint = "https://eastasia.api.cognitive.microsoft.com/sts/v1.0/issuetoken"
 
 
-
 class SoundSource:
     local = 1
     azure = 2
 
 
-
 class Sound:
-    config="./config.json"
-    def __init__(self,source=None):
+    config = "config.json"
+
+    def __init__(self, source=None):
         self.sound_source = source if source else self.get_source()
-        self.engine=self.get_engine()
+        self.engine: pyttsx3.DriverProxy | azure_speechsdk.SpeechSynthesizer = self.get_engine()
+
+    def say(self, sentence):
+        print(sentence)
+        if self.sound_source == SoundSource.local:
+            self.engine.say(sentence)
+            self.engine.runAndWait()
+        elif self.sound_source == SoundSource.azure:
+            self.engine.speak_text(sentence)
 
 
-    def say(self,sentence):
-
-
-
-        pass
     def get_engine(self):
         if self.sound_source == SoundSource.local:
             return pyttsx3.init()
         elif self.sound_source == SoundSource.azure:
-            config = json.load(open(self.config), "r", encoding="utf-8")
+            config = json.load(open(self.config,"r", encoding="utf-8"))
             key = config["azure_api"]["subscription_key"]
             speech_config = azure_speechsdk.SpeechConfig(subscription=key, endpoint=azure_endpoint)
             speech_config.speech_synthesis_language = "zh-CN"
@@ -46,15 +48,14 @@ class Sound:
             speech_synthesizer = azure_speechsdk.SpeechSynthesizer(speech_config=speech_config)
             return speech_synthesizer
 
-
-
     def get_source(self):
-        if os.path.exists("./config.json"):
-            config = json.load(open(self.config),"r",encoding="utf-8")
+        try:
+            config = json.load(open(self.config,"r", encoding="utf-8"))
             if "azure_api" in config:
+                print("选用azure的音源")
                 return SoundSource.azure
             else:
                 return SoundSource.local
-
-        else:
+        except IOError:
+            print(f"找不到配置文件路径={self.config},选用本地音源")
             return SoundSource.local

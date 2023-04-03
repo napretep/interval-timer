@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/clocker.iml" filepath="$PROJECT_DIR$/.idea/clocker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/pomo-timer.iml" filepath="$PROJECT_DIR$/.idea/pomo-timer.iml" />
     </modules>
   </component>
 </project>

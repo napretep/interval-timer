@@ -21,7 +21,7 @@ class SoundSource:
 
 
 class Sound:
-    config = "config.json"
+    config = "./lib/config.json"
 
     def __init__(self, source=None):
         self.sound_source = source if source else self.get_source()

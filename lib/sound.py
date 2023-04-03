@@ -37,16 +37,21 @@ class Sound:
 
 
     def get_engine(self):
-        if self.sound_source == SoundSource.local:
+        try:
+            if self.sound_source == SoundSource.local:
+                return pyttsx3.init()
+            elif self.sound_source == SoundSource.azure:
+                config = json.load(open(self.config,"r", encoding="utf-8"))
+                key = config["azure_api"]["subscription_key"]
+                speech_config = azure_speechsdk.SpeechConfig(subscription=key, endpoint=azure_endpoint)
+                speech_config.speech_synthesis_language = "zh-CN"
+                speech_config.speech_synthesis_voice_name = "zh-CN-XiaochenNeural"
+                speech_synthesizer = azure_speechsdk.SpeechSynthesizer(speech_config=speech_config)
+                return speech_synthesizer
+        except IOError:
+            print(f"找不到配置文件路径={self.config},选用本地音源")
+            self.sound_source = SoundSource.local
             return pyttsx3.init()
-        elif self.sound_source == SoundSource.azure:
-            config = json.load(open(self.config,"r", encoding="utf-8"))
-            key = config["azure_api"]["subscription_key"]
-            speech_config = azure_speechsdk.SpeechConfig(subscription=key, endpoint=azure_endpoint)
-            speech_config.speech_synthesis_language = "zh-CN"
-            speech_config.speech_synthesis_voice_name = "zh-CN-XiaochenNeural"
-            speech_synthesizer = azure_speechsdk.SpeechSynthesizer(speech_config=speech_config)
-            return speech_synthesizer
 
     def get_source(self):
         try:

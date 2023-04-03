@@ -3,7 +3,7 @@ import random
 import re
 import time
 
-from lib.sound import Sound
+from lib.sound import Sound,SoundSource
 
 intro = """
 time must be a string like "1h20m30s" or "20m" or "70s" which h is hours, m is minutes, s is seconds,
@@ -30,6 +30,7 @@ def str_time_to_int_time(str_time: str):
 def timer(total_time: str, interval_time: str, end_text: str = "计时结束", interval_text: str|list[str] = "",
           need_consume_report: bool = True, need_clock_report=True,
           need_remain_report: bool = True, need_random_interval_text=False,
+          sound_source=None,
           ) -> None:
     """
     :param need_random_interval_text:
@@ -49,7 +50,7 @@ def timer(total_time: str, interval_time: str, end_text: str = "计时结束", i
     for var_name, value in local_vars.items():
         print(f"{var_name} = {value}")
     triple_time_maker = lambda _t: _t[0] * 60 * 60 + _t[1] * 60 + _t[2]
-    sound=Sound()
+    sound=Sound(sound_source)
 
     begin_text = "计时开始"
     start_at_timestamp = int(time.time())

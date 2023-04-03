@@ -1,5 +1,5 @@
 import sys
-import time, re
+import time, re, json, random
 
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QTimeEdit, \
     QLineEdit, QTreeWidget, QTreeWidgetItem
@@ -9,7 +9,37 @@ import pyttsx3
 intro = """
 time must be a string like "1h20m30s" or "20m" or "70s" which h is hours, m is minutes, s is seconds,
 The minimum interval for 'interval' is 30 seconds.
+use_
 """
+
+speakers = [
+        "zh-CN-XiaochenNeural",
+        "zh-CN-XiaohanNeural",
+        "zh-CN-XiaomengNeural",
+        "zh-CN-XiaomoNeural",
+        "zh-CN-XiaoqiuNeural",
+        "zh-CN-XiaoruiNeural",
+        "zh-CN-XiaoshuangNeural",
+        "zh-CN-XiaoxiaoNeural",
+        "zh-CN-XiaoxuanNeural",
+        "zh-CN-XiaoyanNeural",
+        "zh-CN-XiaoyiNeural",
+        "zh-CN-XiaoyouNeural",
+        "zh-CN-XiaozhenNeural",
+        "zh-CN-YunfengNeural",
+        "zh-CN-YunhaoNeural",
+        "zh-CN-YunjianNeural",
+        "zh-CN-YunxiaNeural",
+        "zh-CN-YunxiNeural",
+        "zh-CN-YunyangNeural",
+        "zh-CN-YunyeNeural",
+        "zh-CN-YunzeNeural",
+]
+
+config = json.load(open("config.json", "r", encoding="utf-8"))
+
+endpoint = "https://eastasia.api.cognitive.microsoft.com/sts/v1.0/issuetoken"
+
 
 
 def str_time_to_int_time(str_time: str):
@@ -47,7 +77,7 @@ def timer(total_time: str, interval_time: str, end_text: str = "", interval_text
     triple_time_maker = lambda _t: _t[0] * 60 * 60 + _t[1] * 60 + _t[2]
     sound: pyttsx3.Engine = pyttsx3.init()
 
-    print("计时开始")
+    begin_text = "计时开始"
     start_at_timestamp = int(time.time())
     total_timestamp = triple_time_maker(str_time_to_int_time(total_time))
     interval_timestamp = triple_time_maker(str_time_to_int_time(interval_time))
@@ -56,13 +86,13 @@ def timer(total_time: str, interval_time: str, end_text: str = "", interval_text
     last_second = int(time.time())
     while True:
         now = int(time.time())
-        if last_second!=now:
+        if last_second != now:
             last_second = now
             print(now)
         if now > end_timestamp:
             break
-        elif abs(now-start_at_timestamp) % interval_timestamp ==0:
-            print(now-start_at_timestamp)
+        elif abs(now - start_at_timestamp) % interval_timestamp == 0:
+            print(now - start_at_timestamp)
             now_clock = time.localtime()
             if need_clock_report:
                 text = f"现在时间是:{time.strftime('%H点%M分%S秒')}"
@@ -74,26 +104,33 @@ def timer(total_time: str, interval_time: str, end_text: str = "", interval_text
                 hour = time_fly // 3600
                 minute = time_fly % 3600 // 60
                 second = time_fly % 3600 % 60
-                text = f"距离开始计时已经过去{f'{hour}小时' if hour else ''}{f'{minute}分钟' if minute else ''}{f'{second}秒' if second else ''}了,"
-                sound.say(text)
-                print(text)
+                if hour + minute + second > 0:
+                    text = f"距离开始计时已经过去{f'{hour}小时' if hour else ''}{f'{minute}分钟' if minute else ''}{f'{second}秒' if second else ''}了,"
+                    sound.say(text)
+                    print(text)
+                else:
+                    sound.say(begin_text)
+                    print(begin_text)
 
             if need_remain_report:
                 time_fly = end_timestamp - now
                 hour = time_fly // 3600
                 minute = time_fly % 3600 // 60
                 second = time_fly % 3600 % 60
-                if hour+minute+second>0:
+                if hour + minute + second > 0:
                     text = f"距离结束计时还剩{f'{hour}小时' if hour else ''}{f'{minute}分钟' if minute else ''}{f'{second}秒' if second else ''}"
                     sound.say(text)
                     print(text)
+                else:
+                    sound.say(end_text)
+                    print(end_text)
 
             sound.say(interval_text)
             print(interval_text)
         sound.runAndWait()
-    sound.say(end_text)
-    print(end_text)
+
     sound.runAndWait()
+
 
 if __name__ == '__main__':
     # str_time_to_int_time("45s32h")

@@ -1,0 +1,27 @@
+{
+  "basic_config": {},
+  "info_list":[
+    {
+      "total_time": "8h",
+      "interval_time": "5m",
+      "interval_text":
+      [
+        "黄集攀, 马上停止手中的工作, 不要对着屏幕无所事事, 回收思绪, 你现在的问题是搞清楚随机控制需要的基础, 随机控制在哪些领域有应用, 随机控制这个领域由哪些部分构成?"
+      ],
+      "title": "一天计划",
+      "end_text": "一天结束,结束结束结束了注意",
+      "need_consume_report": true,
+      "need_clock_report": true,
+      "need_remain_report": true,
+      "need_random_interval_text": true,
+      "need_random_text_sequence": false,
+      "sound_source": 0,
+      "text_sequence": ["clock_report","interval_text","consume_report","remain_report"],
+      "key_point": [{
+        "type": "consume","value": "4h","text":"插播一条新闻,你该吃药了",
+        "need_clock_report":true,"need_key_point_report":false,
+        "text_sequence": ["clock_report","text"]
+      }]
+    }
+  ]
+}

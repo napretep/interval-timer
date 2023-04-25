@@ -1,0 +1,29 @@
+{
+  "basic_config": {},
+  "info_list":[
+    {
+      "total_time": "8h",
+      "interval_time": "10m",
+      "interval_text":
+      [
+
+        "全体目光向我看齐,黄集攀, 你今天要读深度学习泛化能力的论文的第一章",
+        "下午两点前还可以吃饭,吃完就要饿到明天早上6点"
+      ],
+      "title": "一天计划",
+      "end_text": "一天结束,结束结束结束了注意",
+      "need_consume_report": true,
+      "need_clock_report": true,
+      "need_remain_report": true,
+      "need_random_interval_text": true,
+      "need_random_text_sequence": false,
+      "sound_source": 0,
+      "text_sequence": ["clock_report","interval_text","consume_report","remain_report"],
+      "key_point": [{
+        "type": "consume","value": "4h","text":"插播一条新闻,你该吃药了",
+        "need_clock_report":true,"need_key_point_report":false,
+        "text_sequence": ["clock_report","text"]
+      }]
+    }
+  ]
+}

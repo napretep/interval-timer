@@ -16,12 +16,12 @@ azure_endpoint = "https://eastasia.api.cognitive.microsoft.com/sts/v1.0/issuetok
 
 
 class SoundSource:
-    local = 1
-    azure = 2
+    local = 0
+    azure = 1
 
 
 class Sound:
-    config = "./lib/config.json"
+    config = "./lib/sound_config.json"
 
     def __init__(self, source=None):
         self.sound_source = source if source else self.get_source()

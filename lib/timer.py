@@ -131,5 +131,5 @@ def timer(
                             elif report_name == 'text':
                                 text += key_point["text"] + "\n"
                         sound.say(text)
-
+        time.sleep(0.4)
     print(config["end_text"])

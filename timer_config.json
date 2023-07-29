@@ -3,14 +3,14 @@
   "info_list":[
     {
       "total_time": "8h",
-      "interval_time": "10m",
+      "interval_time": "20m",
       "interval_text":
       [
-
-        "全体目光向我看齐,黄集攀, 你今天要读深度学习泛化能力的论文的第一章",
-        "下午两点前还可以吃饭,吃完就要饿到明天早上6点"
+        "全体目光向我看齐,黄集攀, 你今天要完成CAD代码的重构,20分钟过去了,你做到哪里了?记录一下吧",
+        "喂喂喂,黄集攀, 你今天要思考怎么给钱超老师发邮件说你想读博,20分钟过去了,你做到哪里了?记录一下吧"
       ],
-      "title": "一天计划",
+      "must_report":"",
+      "title": "一天计划,写自荐信,python开发",
       "end_text": "一天结束,结束结束结束了注意",
       "need_consume_report": true,
       "need_clock_report": true,

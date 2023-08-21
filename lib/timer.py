@@ -10,8 +10,8 @@ from .common_import import *
 from .sound import *
 from .utils import *
 
-def get_config():
-    c = json.load(open("./timer_config.json","r",encoding="utf-8"))["info_list"][0]
+def get_config(indx=0):
+    c = json.load(open("./timer_config.json","r",encoding="utf-8"))["info_list"][indx]
 
     return c
 
@@ -23,12 +23,13 @@ def timer(
         #   need_consume_report: bool = True, need_clock_report=True,
         #   need_remain_report: bool = True, need_random_interval_text=False,
         #   sound_source=None,
+        idx=0
           ) -> None:
     """
 
     """
     print(intro)
-    config = get_config()
+    config = get_config(idx)
 
 
     local_vars = locals()
@@ -37,13 +38,11 @@ def timer(
     for var_name, value in local_vars.items():
         print(f"{var_name} = {value}")
 
-    sound = Sound(get_config()['sound_source'])
+    sound = Sound(get_config(idx)['sound_source'])
 
-    begin_text = get_config()['title']+"  计时开始"
+    begin_text = get_config(idx)['title']+"  计时开始"
     start_at_timestamp = int(time.time())
-    total_timestamp = component(get_config()['total_time'].lower(), str_time_to_tuple_time, tuple_time_to_int_time)
-    interval_timestamp = component(get_config()['interval_time'].lower(), str_time_to_tuple_time, tuple_time_to_int_time)
-    end_timestamp = start_at_timestamp + total_timestamp
+
 
     remain_key_point = []
     consume_key_point = []
@@ -53,11 +52,15 @@ def timer(
     while True:
         now = int(time.time())
         if last_second != now:
+
+            config = get_config(idx)
+            total_timestamp = component(get_config(idx)['total_time'].lower(), str_time_to_tuple_time, tuple_time_to_int_time)
+            interval_timestamp = component(get_config(idx)['interval_time'].lower(), str_time_to_tuple_time, tuple_time_to_int_time)
+            end_timestamp = start_at_timestamp + total_timestamp
             consume_timestamp = now - start_at_timestamp
             remain_timestamp = end_timestamp - now
             last_second = now
             print(f"\r{seconds_to_str(consume_timestamp)}", end='', flush=True)
-            config = get_config()
             remain_key_point = [str_time_to_timestamp(key_point_dict["value"]) for key_point_dict in config['key_point'] if key_point_dict["type"]=="remain"]
             consume_key_point = [str_time_to_timestamp(key_point_dict["value"])for key_point_dict in config['key_point'] if key_point_dict["type"] == "consume"]
 

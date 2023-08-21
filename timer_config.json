@@ -2,15 +2,43 @@
   "basic_config": {},
   "info_list":[
     {
-      "total_time": "8h",
+      "total_time": "3h",
+      "interval_time": "5m",
+      "interval_text":
+      [
+
+
+        "黄集攀, 你今天要写代码到下午三点半, 然后去修电脑"
+      ],
+      "must_report":"",
+      "title": "讲卫生计划",
+      "end_text": "一天结束,结束结束结束了注意",
+      "need_consume_report": true,
+      "need_clock_report": true,
+      "need_remain_report": true,
+      "need_random_interval_text": true,
+      "need_random_text_sequence": false,
+      "sound_source": 0,
+      "text_sequence": ["clock_report","interval_text","consume_report","remain_report"],
+      "key_point": [{
+        "type": "consume","value": "4h","text":"插播一条新闻,你该吃药了",
+        "need_clock_report":true,"need_key_point_report":false,
+        "text_sequence": ["clock_report","text"]
+      }]
+    },
+    {
+      "total_time": "5h",
       "interval_time": "20m",
       "interval_text":
       [
-        "全体目光向我看齐,黄集攀, 你今天要完成CAD代码的重构,20分钟过去了,你做到哪里了?记录一下吧",
-        "喂喂喂,黄集攀, 你今天要思考怎么给钱超老师发邮件说你想读博,20分钟过去了,你做到哪里了?记录一下吧"
+
+
+        "黄集攀, 你今天刷牙没, 洗脸没,刮胡子没,记得及时吃药片, ",
+        "黄集攀, (递四方,京东,杉数科技,和光舒卷)这些公司的实习投递怎么样了?",
+        "黄集攀, 杨柳老师答应你读硕博连读了吗?"
       ],
       "must_report":"",
-      "title": "一天计划,写自荐信,python开发",
+      "title": "日常工作计划",
       "end_text": "一天结束,结束结束结束了注意",
       "need_consume_report": true,
       "need_clock_report": true,
